@@ -34,34 +34,55 @@ public class RunBank {
         String path = keyboard.nextLine().trim();
         readFile(path, users);
 
-        char selection;
+        String selection;
         do {
 
-            System.out.println("Who are you\n"
-                    + "a. An individual person\n"
-                    + "b. A Bank Manager\n"
-                    + "c. Transaction Reader\n"
-                    + "s. Bank Statement\n"
-                    + "q. Quit");
-            selection = keyboard.nextLine().charAt(0);
+            System.out.println("Welcome to the Van Arce Bank application! How can I help you? \n"
+                    + "[A] Log in \n"
+                    + "[B] Manager Access \n"
+                    + "[C] Utilize Transaction Reader \n"
+                    + "[S] Generate a bank statement \n"
+                    + "[Q] Quit ");
+            selection = keyboard.nextLine().toUpperCase().trim();
+            
+            @SuppressWarnings("unused")
+			char nullcatcher;
+            boolean exiter = true;
+            
+            // This is my extra sneaky-beaky blank space catcher. You're welcome. Less tricky than a try-catch when it comes to a switch. I dunno, it worked for me. @author Jeffrey Vanarsdall
+            while(exiter) {	
+            	try {
+            		nullcatcher = selection.charAt(0);
+            		exiter = false;
+            		}
+            	catch(StringIndexOutOfBoundsException e) {
+            		System.out.println("C'mon, you gotta give me something to work with.");
+            		selection = keyboard.nextLine();
+            		}
+            }
 
-            switch (selection) {
-                case 'a':
+            switch (selection.charAt(0)) {
+                case 'A':
                     individualPerson(users, log, keyboard);
                     break;
-                case 'b':
+                case 'B':
                     bankManager(users, log, keyboard);
                     break;
-                case 'c':
+                case 'C':
                     transactionReader(users, log, keyboard);
                     break;
-                case 's':
+                case 'S':
                     bankStatement(users, keyboard);
                     break;
+                case ' ':
+                	System.out.println("That's just an empty space. You trying to pull a fast one?");
+                default:
+                	System.out.println("Please enter a valid input as listed in the menu.");
+                    	
             }
 
             System.out.println("");
-        } while (selection != 'q');
+        } while (selection.charAt(0) != 'q');
 
         writeUserToFile(users, keyboard);
 
@@ -99,7 +120,7 @@ public class RunBank {
     /**
      * Write a Bank Statement file for a specific user i. Choose a user by name
      * ii. The formatting is up to you (Google sample bank statements for
-     * inspiration.) – Does not have to be fancy, but functional iii. All
+     * inspiration.) â€“ Does not have to be fancy, but functional iii. All
      * information about the user should be on the statement 1. Name, address,
      * phone, etc. iv. All transactions should be written 1. For a particular
      * session of running the code
@@ -360,32 +381,47 @@ public class RunBank {
         if (account == null) {
             return;
         }
-        char selection;
+        String selection;
+        do {
+        System.out.println("Please make a selection, " + account.getUser().getName() + ".");
         System.out.println("a. Inquire a balance\n"
                 + "b. Deposit money\n"
                 + "c. Withdraw money\n"
                 + "d. Transfer money (i.e. from checking to credit account)\n"
-                + "e. Pay someone (i.e. Mickey pays Donald)"
+                + "e. Pay someone (i.e. Mickey pays Donald)\n"
+                + "x. Exit Menu[Up One Level]"
         );
-        selection = keyboard.nextLine().charAt(0);
-
-        switch (selection) {
-            case 'a':
+        
+        selection = keyboard.nextLine().toUpperCase();
+        
+        switch (selection.charAt(0)) {
+            case 'A':
                 inquire(account, log);
-                break;
-            case 'b':
+                selection = keyboard.nextLine();
+                //break;
+            case 'B':
                 deposit(account, log, keyboard);
-                break;
-            case 'c':
+                selection = keyboard.nextLine();
+                //break;
+            case 'C':
                 withdraw(account, log, keyboard);
-                break;
-            case 'd':
+                selection = keyboard.nextLine();
+                //break;
+            case 'D':
                 transfer(account, users, log, keyboard);
-                break;
-            case 'e':
+                selection = keyboard.nextLine();
+                //break;
+            case 'E':
                 pay(account, users, log, keyboard);
-                break;
+                selection = keyboard.nextLine();
+                //break;
+            case 'X':
+            	System.out.println("Exiting menu.");
+            	break;
         }
+        System.out.println("Select [X] when finished, or choose another option to continue.");
+        //keyboard.next();
+        }while(selection.charAt(0) != 'x');
     }
 
     /**
@@ -493,7 +529,20 @@ public class RunBank {
 
     private static Account selectAnAccount(ArrayList<User> users, Scanner keyboard) {
         System.out.print("Enter the user id: ");
-        int id = Integer.parseInt(keyboard.nextLine().trim());
+        String temp = keyboard.nextLine().trim();
+        int id;
+        boolean exiter = false;
+        
+        while(exiter = true) {
+        	try {
+        		id = Integer.parseInt(temp);
+        		exiter = false;
+        	}
+        	catch(NumberFormatException e) {
+        		System.out.println("Please enter a valid integer value.");
+        		temp = keyboard.nextLine();
+        	}
+        }
         User user = null;
         for (User a_user : users) {
             if (a_user.getID() == id) {

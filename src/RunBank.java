@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Scanner;
  * @author
  */
 public class RunBank {
-
+	public static int savingsAcCounter = 2087;
     /**
      * main function
      *
@@ -42,6 +43,7 @@ public class RunBank {
                     + "[B] Manager Access \n"
                     + "[C] Utilize Transaction Reader \n"
                     + "[S] Generate a bank statement \n"
+                    + "[N] Create a new user profile \n"
                     + "[Q] Quit ");
             selection = keyboard.nextLine().toUpperCase().trim();
             
@@ -74,6 +76,8 @@ public class RunBank {
                 case 'S':
                     bankStatement(users, keyboard);
                     break;
+                case 'N':
+                	createUser(users, keyboard);
                 case ' ':
                 	System.out.println("That's just an empty space. You trying to pull a fast one?");
                 default:
@@ -87,8 +91,58 @@ public class RunBank {
         writeUserToFile(users, keyboard);
 
     }
-
     /**
+     * A method to handle the creation of a new user
+     * 
+     * @param users the static data structure containing a list of all users at the bank
+     * @param keyboard the scanner necessary to accept user input
+     */
+
+    private static void createUser(ArrayList<User> users, Scanner keyboard) {
+    	User newUser;
+    	String fName;
+    	String lName;
+    	String dateOfBirth;
+    	String address;
+    	String phoneNumber;
+    	String password;
+    	Savings savings = new Savings(savingsAcCounter, 5.00, 26.2);
+    	boolean startOver = true;
+  	while(startOver) {
+    		try {
+    			System.out.println("Hi! Allow me to be the first to welcome you to Van Arce! Can I have your first name?");
+    			fName = keyboard.nextLine().trim();
+    			System.out.println("Thanks, it's a pleasure to meet you, " + fName + "!");
+    			System.out.println("Now, I'll need that last name next.");
+    			lName = keyboard.nextLine().trim();
+    			System.out.println("Thank you! Just letting you know now, if I find your name already in our systems, we'll have to restart this process from the beginning.");
+    			System.out.println("Not that that'll be a concern today! You wouldn't pruposely try to break me, would you? Nah, I trust you.");
+    			System.out.println("I digress. Can I have your date of birth? We like to send cake!");
+    			dateOfBirth = keyboard.nextLine().trim();
+    			System.out.println("Perfect! Next I need your address. Gotta send these statements somewhere, amirite?");
+    			address = keyboard.nextLine().trim();
+    			System.out.println("I promise not to send anything weird to you. Seriously, Scout's Honor. Anyway, can I have your phone number? We can send each other memes!");
+    			phoneNumber = keyboard.nextLine().trim();
+    			savingsAcCounter++;
+    			System.out.println("Alright, give me just a moment to process you into our system! Hold tight!");
+    			//Check if user is already in system
+    			newUser = findUser(users, fName, lName);
+    			if(newUser == null) {
+    				System.out.println("Thank you for waiting! Everything is all set over here, the last thing I need is a secure password, to keep strangers out.");
+    				password = keyboard.nextLine();
+    				startOver = false;
+    				System.out.println("That does it! You're now an official Van Arce member. We look forward to seeing you in the future!");
+    				users.add(new User(fName, lName, dateOfBirth, address, phoneNumber, savings));
+    			}
+    		}
+    		catch(InputMismatchException e) {
+    			System.out.println("Ugh, see, now we have to start all over. Thanks.");
+    			
+    		}
+    	}
+	}
+
+	/**
      * write all user to file
      *
      * @param users
@@ -530,7 +584,7 @@ public class RunBank {
     private static Account selectAnAccount(ArrayList<User> users, Scanner keyboard) {
         System.out.print("Enter the user id: ");
         String temp = keyboard.nextLine().trim();
-        int id;
+        int id = 0;
         boolean exiter = false;
         
         while(exiter = true) {

@@ -73,7 +73,7 @@ public class User extends Individual {
     /**
      * getter
      *
-     * @return
+     * @return address the address of the user
      */
     public String getAddress() {
         return address;
@@ -82,7 +82,7 @@ public class User extends Individual {
     /**
      * getter
      *
-     * @return
+     * @return phoneNumber, the phone number of the user
      */
     public String getPhoneNumber() {
         return phoneNumber;
@@ -91,12 +91,16 @@ public class User extends Individual {
     /**
      * getter
      *
-     * @return
+     * @return accounts a list of all accounts owned by the user
      */
     public ArrayList<Account> getAccounts() {
         return accounts;
     }
-
+    
+    /**getter
+     * 
+     * @return id the ID number of the user
+     */
     public int getID() {
         return id;
     }
@@ -104,7 +108,7 @@ public class User extends Individual {
     /**
      * setter
      *
-     * @param address
+     * @param address the new address desired by the user
      */
     public void setAddress(String address) {
         this.address = address;
@@ -113,7 +117,7 @@ public class User extends Individual {
     /**
      * setter
      *
-     * @param phoneNumber
+     * @param phoneNumber the phone number of the user
      */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
@@ -123,9 +127,9 @@ public class User extends Individual {
     /**
      * create checking account
      *
-     * @param accNum
-     * @param balance
-     * @param interest
+     * @param accNum the account number of the new account
+     * @param balance the balance of the new account
+     * @param interest the interest of the new account
      */
     public void createCheckingAccount(int accNum, double balance,
             double interest) {
@@ -137,9 +141,9 @@ public class User extends Individual {
     /**
      * create credit account
      *
-     * @param accNum
-     * @param balance
-     * @param max
+     * @param accNum the account number of the new credit account
+     * @param balance the balance of the new credit account
+     * @param max the maximum amount of the new credit account
      */
     public void createCrreditAccount(int accNum, double balance,
             double max) {
@@ -148,6 +152,10 @@ public class User extends Individual {
         accounts.add(account);
     }
 
+    /**
+     * toString method to print a user's information to the console in a formatted manner
+     * 
+     */
     @Override
     public String toString() {
         String output = "ID: " + id + System.lineSeparator()
@@ -160,7 +168,13 @@ public class User extends Individual {
         }*/
         return output;
     }
-
+    
+    /**
+     * writes a file that represents a bank statement
+     * 
+     * @param fw the filewriter responsible for writing the file
+     * @throws IOException this exception is thrown when the bank statement file cannot be created
+     */
     public void writeBankStatement(FileWriter fw) throws IOException {
         fw.write(this.toString());
         fw.write(System.lineSeparator());
@@ -171,7 +185,13 @@ public class User extends Individual {
                     + System.lineSeparator());
         }
     }
-
+    
+    /**
+     * adds the user to the file
+     * 
+     * @param fw the filewriter that appends the new user to the file
+     * @throws IOException this exception is thrown when the file cannot be created or found
+     */
     public void writeUserToFile(FileWriter fw) throws IOException {
         String[] line = new String[13];
         for (Account account : accounts) {

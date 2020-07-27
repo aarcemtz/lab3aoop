@@ -429,10 +429,11 @@ public class RunBank {
      */
     private static void individualPerson(ArrayList<User> users,
             ArrayList<String> log, Scanner keyboard) {
-
+    	
         Account account = selectAnAccount(users, keyboard);
 
         if (account == null) {
+        	System.out.println("That's not a valid account, please try again.");
             return;
         }
         String selection;
@@ -582,19 +583,24 @@ public class RunBank {
     }
 
     private static Account selectAnAccount(ArrayList<User> users, Scanner keyboard) {
-        System.out.print("Enter the user id: ");
-        String temp = keyboard.nextLine().trim();
-        int id = 0;
-        boolean exiter = false;
+        System.out.print("Please enter your User ID number.");
+        String tempUserID = keyboard.nextLine().trim();
         
-        while(exiter = true) {
+        int id = 0;
+        int accNum = 0;
+        boolean exiter1 = false;
+        boolean exiter2 = false;
+        
+        while(exiter1) {
         	try {
-        		id = Integer.parseInt(temp);
-        		exiter = false;
+        		id = Integer.parseInt(tempUserID);
+        		exiter1 = false;
+        		break;
         	}
         	catch(NumberFormatException e) {
-        		System.out.println("Please enter a valid integer value.");
-        		temp = keyboard.nextLine();
+        		System.out.println("Please enter a valid user ID.");
+        		tempUserID = keyboard.nextLine();
+        		break;
         	}
         }
         User user = null;
@@ -611,14 +617,34 @@ public class RunBank {
         }
 
         System.out.print("Enter the account number: ");
-        int accNum = Integer.parseInt(keyboard.nextLine().trim());
-
+        String tempAccNum = keyboard.nextLine().trim();
+        while(exiter2) {
+        	try {
+        		accNum = Integer.parseInt(tempAccNum);
+        		exiter2 = false;
+        		break;
+        	}
+        	catch(NumberFormatException e) {
+        		System.out.println("Please enter a valid account number.");
+        		tempAccNum = keyboard.nextLine();
+        		break;
+        	}
+        }
+        accNum = Integer.parseInt(tempAccNum);
+        
+        System.out.println("Enter your password.");
+        String password = keyboard.nextLine();
+        
         Account account = null;
 
         for (Account acc : user.getAccounts()) {
-            if (acc.getAccNum() == accNum) {
+            if (acc.getAccNum() == accNum && !password.equals(acc.getPassword())) {
                 account = acc;
                 break;
+            }
+            else if(acc.getAccNum() == accNum) {
+            	System.out.println("I'm sorry, that password is incorrect.");
+            	return account;
             }
         }
         if (account == null) {

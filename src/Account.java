@@ -14,6 +14,7 @@ public abstract class Account {
     protected double interest;
     private User user = null;
     private BankStatement statement;
+    private String password = "[7ii870!!";
 
     /**
      * constructor
@@ -368,5 +369,13 @@ public abstract class Account {
             System.out.println("Error");
         }
     }
+
+	public String getPassword() {
+		return this.password;
+	}
+	
+	public void setPassword(String newPass) {
+		this.password = newPass;
+	}
 
 }

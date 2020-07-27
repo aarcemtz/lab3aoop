@@ -38,6 +38,9 @@ public class User extends Individual {
         // Required for all users: Name, DOB, Address, Phone Number, and at 
         // least a savings account
         accounts.add(savings);
+        for (Account account : accounts) {
+			account.setPassword(fName+"*"+lName+"!987");
+		}
     }
 
     /**

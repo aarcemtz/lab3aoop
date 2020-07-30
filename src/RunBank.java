@@ -176,7 +176,7 @@ public class RunBank {
     /**
      * Write a Bank Statement file for a specific user i. Choose a user by name
      * ii. The formatting is up to you (Google sample bank statements for
-     * inspiration.) – Does not have to be fancy, but functional iii. All
+     * inspiration.) â€“ Does not have to be fancy, but functional iii. All
      * information about the user should be on the statement 1. Name, address,
      * phone, etc. iv. All transactions should be written 1. For a particular
      * session of running the code
@@ -585,13 +585,14 @@ public class RunBank {
         
         int id = 0;
         int accNum = 0;
-        boolean exiter1 = false;
-        boolean exiter2 = false;
+        boolean exiter1 = true;
+        boolean exiter2 = true;
         
         while(exiter1) {
         	try {
         		id = Integer.parseInt(tempUserID);
         		exiter1 = false;
+        		System.out.println("ID accepted.");
         		break;
         	}
         	catch(NumberFormatException e) {
@@ -602,6 +603,7 @@ public class RunBank {
         }
         User user = null;
         for (User a_user : users) {
+        	System.out.println("Input ID is: " + tempUserID + " Search ID is " + id + ", current ID is: " + a_user.getID());
             if (a_user.getID() == id) {
                 user = a_user;
                 break;
@@ -752,7 +754,7 @@ public class RunBank {
     private static void readFile(String path, ArrayList<User> users) {
         try {
             Scanner input = new Scanner(new File(path));
-            /// skip this first line 
+            /// skip this first line
             input.nextLine();
             while (input.hasNext()) {
                 String line = input.nextLine().trim();

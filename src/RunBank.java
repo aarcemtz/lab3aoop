@@ -79,6 +79,9 @@ public class RunBank {
                 case 'N':
                 	createUser(users, keyboard);
                 	break;
+                case 'Q':
+                	System.out.println("Thank you for using our bank! Have a dope day, dude.");
+                	System.exit(0);
                 case ' ':
                 	System.out.println("That's just an empty space. You trying to pull a fast one?");
                 	break;
@@ -471,8 +474,8 @@ public class RunBank {
             	System.out.println("Exiting menu.");
             	break;
         }
-        System.out.println("Select [X] when finished, or choose another option to continue.");
-        //keyboard.next();
+        System.out.println("Select [X] to confirm exit if finished, or choose another option to continue.");
+        selection = keyboard.nextLine();
         }while(selection.charAt(0) != 'x');
     }
 
@@ -603,7 +606,6 @@ public class RunBank {
         }
         User user = null;
         for (User a_user : users) {
-        	System.out.println("Input ID is: " + tempUserID + " Search ID is " + id + ", current ID is: " + a_user.getID());
             if (a_user.getID() == id) {
                 user = a_user;
                 break;
